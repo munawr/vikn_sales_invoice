@@ -11,6 +11,12 @@ class AuthController extends GetxController {
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
+
+  var allowBackOperation = false;
+  Future<bool> onWillPop() async {
+    return allowBackOperation;
+  }
+
   Future<void> login(String username, String password, bool isMobile) async {
     isLoading(true);
 
@@ -31,13 +37,14 @@ class AuthController extends GetxController {
         if (response.statusCode == 200) {
           var responseData = json.decode(response.body);
           await saveAccessToken(responseData['data']['access']);
+          //await Future.delayed(Duration(seconds: 2));
         } else {
           print('Login failed: ${response.statusCode}');
         }
       } else {
         Get.snackbar(
           'Invalid Credentials',
-          'Please provide valid username, password, and is_mobile values.',
+          'Please provide valid username, password',
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
@@ -62,5 +69,9 @@ class AuthController extends GetxController {
   String? getAccessToken() {
     SharedPreferences prefs = Get.find<SharedPreferences>();
     return prefs.getString('access_token');
+  }
+  Future<void> clearAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('access_token');
   }
 }

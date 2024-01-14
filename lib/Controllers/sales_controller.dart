@@ -7,9 +7,10 @@ import '../Models/sales_model.dart'; // Assuming your Data class is in this file
 class SalesController extends GetxController {
   var isLoading = false.obs;
   var salesData = <Data>[].obs;
-
+  var filteredSales = <Data>[].obs;
   Future<void> getSalesData() async {
     //print("'https://www.api.viknbooks.com/api/v10/sales/sale-list-page/'");
+    //await Future.delayed(Duration(seconds: 2));
     isLoading(true);
 
     try {
@@ -65,10 +66,25 @@ class SalesController extends GetxController {
     isLoading(false);
   }
 
-
+  void filterSales(String query) {
+    if (query.isEmpty) {
+      // If the query is empty, show all sales data
+      filteredSales.assignAll(salesData);
+    } else {
+      // Otherwise, filter based on the search query
+      filteredSales.clear();
+      filteredSales.addAll(salesData.where((sale) =>
+      sale.voucherNo!.toLowerCase().contains(query.toLowerCase()) ||
+          sale.customerName!.toLowerCase().contains(query.toLowerCase())));
+    }
+  }
 
   Future<String?> getAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('access_token');
+  }
+  Future<void> clearAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('access_token');
   }
 }

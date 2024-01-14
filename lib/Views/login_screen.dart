@@ -12,11 +12,15 @@ class LoginPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final RxBool isPasswordVisible = false.obs;
 
+
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: authController.onWillPop,
+        child: Scaffold(
+
       body: Stack(
         children: [
           AuraBox(
@@ -64,18 +68,14 @@ class LoginPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 80),
+
+                            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 80),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(4.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/language.svg',
-                                    height: 24,
-                                    width: 24,
-                                  ),
+                                  child: SvgPicture.asset('assets/icons/language.svg',height: 24,width: 24,),
                                 ),
                                 const Text(
                                   "English",
@@ -91,9 +91,7 @@ class LoginPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 70,
-                          ),
+                          const SizedBox(height: 70,),
                           Text(
                             "Login",
                             style: GoogleFonts.poppins(
@@ -118,9 +116,7 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 8,
-                          ),
+                          const SizedBox(height:8 ,),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -140,12 +136,12 @@ class LoginPage extends StatelessWidget {
                                     controller: usernameController,
                                     decoration: InputDecoration(
                                       enabledBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.transparent),
+                                        borderSide:
+                                            BorderSide(color: Colors.transparent),
                                       ),
                                       focusedBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.transparent),
+                                        borderSide:
+                                            BorderSide(color: Colors.transparent),
                                       ),
                                       labelText: 'Username',
                                       labelStyle: const TextStyle(
@@ -179,15 +175,13 @@ class LoginPage extends StatelessWidget {
                                       obscureText: !isPasswordVisible.value,
                                       controller: passwordController,
                                       decoration: InputDecoration(
-                                        enabledBorder:
-                                            const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
+                                        enabledBorder: const UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.transparent),
                                         ),
-                                        focusedBorder:
-                                            const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
+                                        focusedBorder: const UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.transparent),
                                         ),
                                         prefixIcon: Padding(
                                           padding: const EdgeInsets.all(12.0),
@@ -312,9 +306,12 @@ class LoginPage extends StatelessWidget {
                         password,
                         true,
                       );
-                      if (authController.isLoading.isFalse &&
-                          authController.getAccessToken() != null) {
+                        if (authController.isLoading.isFalse &&
+                          authController.getAccessToken() != null)
+                      {
                         Get.to(() => const SalesEstimate());
+                        usernameController.clear();
+                        passwordController.clear();
                       } else {
                         Get.snackbar(
                           'Error',
@@ -331,9 +328,7 @@ class LoginPage extends StatelessWidget {
                         ? const CircularProgressIndicator()
                         : const SizedBox.shrink();
                   }),
-                  const SizedBox(
-                    height: 100,
-                  ),
+                  const SizedBox(height: 100,),
                   const Text(
                     "Don’t have an Account?",
                     style: TextStyle(
@@ -367,6 +362,6 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

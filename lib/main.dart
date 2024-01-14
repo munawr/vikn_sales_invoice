@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vkn_sales/Views/splash_screen.dart';
 import 'Controllers/sales_controller.dart';
-import 'Views/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +31,8 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0A9EF3)),
               useMaterial3: true,
             ),
-            home: LoginPage(),
+           // home: LoginPage(),
+            home: SplashScreen(),
           );
         } else {
           return const MaterialApp(
