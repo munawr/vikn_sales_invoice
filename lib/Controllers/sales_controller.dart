@@ -2,21 +2,21 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Models/sales_model.dart'; // Assuming your Data class is in this file
+import '../Models/sales_model.dart';
 
 class SalesController extends GetxController {
   var isLoading = false.obs;
   var salesData = <Data>[].obs;
   var filteredSales = <Data>[].obs;
+  SalesController() {
+    getSalesData();
+  }
   Future<void> getSalesData() async {
-    //print("'https://www.api.viknbooks.com/api/v10/sales/sale-list-page/'");
-    //await Future.delayed(Duration(seconds: 2));
+
     isLoading(true);
 
     try {
       var accessToken = await getAccessToken();
-      //print('Access Token: $accessToken');
-
       var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',
@@ -68,12 +68,9 @@ class SalesController extends GetxController {
 
   void filterSales(String query) {
     if (query.isEmpty) {
-      // If the query is empty, show all sales data
       filteredSales.assignAll(salesData);
     } else {
-      // Otherwise, filter based on the search query
-      filteredSales.clear();
-      filteredSales.addAll(salesData.where((sale) =>
+      filteredSales.assignAll(salesData.where((sale) =>
       sale.voucherNo!.toLowerCase().contains(query.toLowerCase()) ||
           sale.customerName!.toLowerCase().contains(query.toLowerCase())));
     }

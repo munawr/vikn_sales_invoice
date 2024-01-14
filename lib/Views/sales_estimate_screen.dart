@@ -19,6 +19,7 @@ class _SalesEstimateState extends State<SalesEstimate> {
   void initState() {
     super.initState();
     salesController.getSalesData();
+    salesController.filterSales('');
   }
 
   @override
@@ -62,7 +63,11 @@ class _SalesEstimateState extends State<SalesEstimate> {
         () {
           if (salesController.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
-          } else {
+          }
+          if (salesController.salesData.isEmpty) {
+            return const Center(child: Text("Enter a query"));
+          }
+          else {
             return Column(
               children: [
                 TextField(
@@ -90,7 +95,7 @@ class _SalesEstimateState extends State<SalesEstimate> {
                     suffixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: SvgPicture.asset(
-                        'assets/icons/searchgrey.svg', // Replace with your SVG asset
+                        'assets/icons/searchgrey.svg',
                         height: 16,
                         width: 16,
                         color: const Color(0xffb4b4b4),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vkn_sales/Views/splash_screen.dart';
 import 'Controllers/sales_controller.dart';
+import 'Views/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

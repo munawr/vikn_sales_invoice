@@ -3,8 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:aura_box/aura_box.dart';
-import 'package:vkn_sales/Controllers/login_controller.dart';
-import 'package:vkn_sales/Views/sales_estimate_screen.dart';
+import 'package:vikn_sales/Views/sales_estimate_screen.dart';
+
+import '../Controllers/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
@@ -309,7 +310,7 @@ class LoginPage extends StatelessWidget {
                         if (authController.isLoading.isFalse &&
                           authController.getAccessToken() != null)
                       {
-                        Get.to(() => const SalesEstimate());
+                        Get.to(() =>  SalesEstimate());
                         usernameController.clear();
                         passwordController.clear();
                       } else {
