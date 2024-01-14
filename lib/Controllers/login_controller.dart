@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vikn_sales/Controllers/sales_controller.dart';
+
+import '../Views/sales_estimate_screen.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
   var isPasswordVisible = false.obs;
+  final SalesController salesController = Get.find();
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
@@ -35,9 +39,14 @@ class AuthController extends GetxController {
         );
 
         if (response.statusCode == 200) {
+          // var responseData = json.decode(response.body);
+          // await saveAccessToken(responseData['data']['access']);
+          // await salesController.getSalesData();
           var responseData = json.decode(response.body);
           await saveAccessToken(responseData['data']['access']);
-          //await Future.delayed(Duration(seconds: 2));
+          await salesController.getSalesData();
+          // Proceed to SalesEstimate screen after successful login
+          Get.to(() => SalesEstimate());
         } else {
           print('Login failed: ${response.statusCode}');
         }

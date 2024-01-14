@@ -307,10 +307,11 @@ class LoginPage extends StatelessWidget {
                         password,
                         true,
                       );
+
                         if (authController.isLoading.isFalse &&
-                          authController.getAccessToken() != null)
+                          authController.getAccessToken() != null )
                       {
-                        Get.to(() =>  SalesEstimate());
+                       // Get.to(() =>  SalesEstimate());
                         usernameController.clear();
                         passwordController.clear();
                       } else {
